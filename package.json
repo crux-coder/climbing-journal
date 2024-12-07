@@ -39,7 +39,9 @@
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "start": "node --enable-source-maps ./dist/index.js",
-    "test": "jest --runInBand ."
+    "test": "jest --runInBand .",
+    "supabase:types": "supabase gen types typescript --project-id fdlebespmleeaccugltm > src/config/database.types.ts",
+    "new:feature": "node ./scripts/new.feature.ts"
   },
   "devDependencies": {
     "@babel/core": "7.26.0",
@@ -47,6 +49,7 @@
     "@babel/preset-typescript": "7.26.0",
     "@jest/globals": "29.7.0",
     "@tsconfig/node20": "20.1.4",
+    "@types/express": "^4",
     "@types/jest": "29.5.14",
     "@types/node": "20.17.9",
     "@typescript-eslint/eslint-plugin": "6.21.0",
@@ -60,5 +63,10 @@
     "rimraf": "5.0.10",
     "typescript": "5.7.2"
   },
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.2.2",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
 }

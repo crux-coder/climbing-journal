@@ -1,20 +1,18 @@
-#!/usr/bin/env node
-// NOTE: You can remove the first line if you don't plan to release an
-// executable package. E.g. code that can be used as cli like prettier or eslint
+import express from 'express';
+import usersRouter from 'src/users';
+import dotenv from 'dotenv';
+import { errorHandler } from 'src/middleware/error.handler';
 
-const main = () => {
-  console.log("hello Node.js and Typescript world :]");
-  console.log("live reloading");
-  console.log("live reloading2");
-};
+const app = express();
+dotenv.config();
+app.use(express.json());
 
-// This was just here to force a linting error for now to demonstrate/test the
-// eslint pipeline. You can uncomment this and run "yarn lint:check" to test the
-// linting.
-// const x: number[] = [1, 2];
-// const y: Array<number> = [3, 4];
-// if (x == y) {
-//   console.log("equal!");
-// }
+const PORT = process.env.PORT || 5000;
 
-main();
+app.use('/users', usersRouter);
+
+app.use(errorHandler);
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
+});
