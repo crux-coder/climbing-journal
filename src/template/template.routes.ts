@@ -1,12 +1,12 @@
-import * as express from 'express';
-import { create, getAll, getById, update } from './template.controller';
-import { validateParamsId } from 'src/middleware/validate.params.id';
+import * as express from "express";
+import { create, getAll, getById, update } from "./template.controller";
+import { validateParamsId } from "src/middleware/validate.params.id";
 
 const router = express.Router();
 
-router.post('/', create);
-router.get('/', getAll);
-router.get('/:id', validateParamsId, getById);
-router.put('/:id', validateParamsId, update);
+router.post("/", create);
+router.get("/", getAll);
+router.get("/:id", validateParamsId, getById);
+router.put("/:id", validateParamsId, update);
 
 export default router;

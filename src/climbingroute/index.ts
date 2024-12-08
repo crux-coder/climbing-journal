@@ -1,3 +1,3 @@
-import climbingrouteRouter from './climbingroute.routes';
+import climbingrouteRouter from "./climbingroute.routes";
 
 export default climbingrouteRouter;
