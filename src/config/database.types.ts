@@ -9,6 +9,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      climbing_routes: {
+        Row: {
+          approach: string | null
+          created_at: string
+          description: string | null
+          grade: string | null
+          id: string
+          length: number | null
+          name: string
+          pitches: Json
+          type: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          approach?: string | null
+          created_at?: string
+          description?: string | null
+          grade?: string | null
+          id?: string
+          length?: number | null
+          name: string
+          pitches?: Json
+          type?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          approach?: string | null
+          created_at?: string
+          description?: string | null
+          grade?: string | null
+          id?: string
+          length?: number | null
+          name?: string
+          pitches?: Json
+          type?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "climbing_routes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
@@ -16,16 +66,14 @@ export type Database = {
           first_name: string | null
           id: string
           last_name: string | null
-          password: string
           updated_at: string
         }
         Insert: {
           created_at?: string
-          email?: string
+          email: string
           first_name?: string | null
           id?: string
           last_name?: string | null
-          password?: string
           updated_at?: string
         }
         Update: {
@@ -34,7 +82,6 @@ export type Database = {
           first_name?: string | null
           id?: string
           last_name?: string | null
-          password?: string
           updated_at?: string
         }
         Relationships: []

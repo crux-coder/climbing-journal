@@ -1,18 +1,17 @@
-import getSupabaseClient from "src/config/supabase";
 import { AppError } from "src/common/app.error";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "src/config/database.types";
 
 export type User = {
     id: string;
     first_name: string | null;
     last_name: string | null;
     email: string;
-    password: string;
     created_at: string;
     updated_at: string;
 }
 
-export const createUser = async (user: User): Promise<User> => {
-    const supabase = getSupabaseClient();
+export const createUser = async (supabase: SupabaseClient<Database>, user: User): Promise<User> => {
     const { data, error } = await supabase
         .from('users')
         .insert(user)
@@ -30,8 +29,7 @@ export const createUser = async (user: User): Promise<User> => {
     return data;
 };
 
-export const getUsers = async (): Promise<User[]> => {
-    const supabase = getSupabaseClient();
+export const getUsers = async (supabase: SupabaseClient<Database>): Promise<User[]> => {
     const { data, error } = await supabase
         .from('users')
         .select();
@@ -43,8 +41,7 @@ export const getUsers = async (): Promise<User[]> => {
     return data;
 };
 
-export const getUserById = async (id: string): Promise<User | null> => {
-    const supabase = getSupabaseClient();
+export const getUserById = async (supabase: SupabaseClient<Database>, id: string): Promise<User | null> => {
     const { data, error } = await supabase
         .from('users')
         .select()
@@ -58,8 +55,7 @@ export const getUserById = async (id: string): Promise<User | null> => {
     return data;
 };
 
-export const updateUser = async (id: string, user: User): Promise<User> => {
-    const supabase = getSupabaseClient();
+export const updateUser = async (supabase: SupabaseClient<Database>, id: string, user: User): Promise<User> => {
     const { data, error } = await supabase
         .from('users')
         .update(user)
