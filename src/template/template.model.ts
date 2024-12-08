@@ -1,5 +1,6 @@
-import getSupabaseClient from "src/config/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { AppError } from "src/common/app.error";
+import { Database } from "src/config/database.types";
 
 export type Template = {
     id: string;
@@ -7,14 +8,13 @@ export type Template = {
     updated_at: string;
 }
 
-export const create = async (template: Template): Promise<Template> => {
-    const supabase = getSupabaseClient();
+export const create = async (supabase: SupabaseClient<Database>, template: Template): Promise<Template> => {
     /* This @ts-ignore is purposefully added in this position for two reasons:
      1. To ignore ts error since templates table does not exist in the database
      2. When new feature script is run, it will be replaced with empty string, otherwise we would have empty row if placed on the next line
     */
     const { data, error } = await supabase// @ts-ignore
-        .from('templates')
+        .from('templates')// @ts-ignore
         .insert(template)
         .single();
 
@@ -22,7 +22,7 @@ export const create = async (template: Template): Promise<Template> => {
         throw new AppError(
             error.message,
             400,
-            'USER_CREATION_FAILED',
+            'CREATION_FAILED',
             'Failed to create template. Please check your input and try again.',
         );
     }
@@ -30,8 +30,7 @@ export const create = async (template: Template): Promise<Template> => {
     return data;
 };
 
-export const getAll = async (): Promise<Template[]> => {
-    const supabase = getSupabaseClient();
+export const getAll = async (supabase: SupabaseClient<Database>): Promise<Template[]> => {
     /* This @ts-ignore is purposefully added in this position for two reasons:
      1. To ignore ts error since templates table does not exist in the database
      2. When new feature script is run, it will be replaced with empty string, otherwise we would have empty row if placed on the next line
@@ -47,8 +46,7 @@ export const getAll = async (): Promise<Template[]> => {
     return data;
 };
 
-export const getById = async (id: string): Promise<Template | null> => {
-    const supabase = getSupabaseClient();
+export const getById = async (supabase: SupabaseClient<Database>, id: string): Promise<Template | null> => {
     /* This @ts-ignore is purposefully added in this position for two reasons:
      1. To ignore ts error since templates table does not exist in the database
      2. When new feature script is run, it will be replaced with empty string, otherwise we would have empty row if placed on the next line
@@ -66,8 +64,7 @@ export const getById = async (id: string): Promise<Template | null> => {
     return data;
 };
 
-export const update = async (id: string, template: Template): Promise<Template> => {
-    const supabase = getSupabaseClient();
+export const update = async (supabase: SupabaseClient<Database>, id: string, template: Template): Promise<Template> => {
     /* This @ts-ignore is purposefully added in this position for two reasons:
      1. To ignore ts error since templates table does not exist in the database
      2. When new feature script is run, it will be replaced with empty string, otherwise we would have empty row if placed on the next line
