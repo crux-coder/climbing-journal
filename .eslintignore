@@ -140,5 +140,6 @@ TODO
 # eslintignore specific
 .yarn
 .eslintrc.cjs
+esbuild.config.cjs
 
 scripts/*

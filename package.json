@@ -11,10 +11,13 @@
     "type": "git",
     "url": "git+https://github.com/crux-coder/climbing-journal.git"
   },
+  "engines": {
+    "node": "20"
+  },
   "keywords": [],
   "author": "Jasmin Mustafic <mustaficjasmin7@gmail.com>",
   "scripts": {
-    "bundle": "rimraf dist && esbuild --outdir=dist --sourcemap --bundle --platform=node --target=node20.10.0 ./src/index.ts",
+    "bundle": "rimraf dist && esbuild --outdir=dist --sourcemap --bundle --platform=node --target=node20.14.0 --external:@sentry/profiling-node --external:@sentry/node ./src/index.ts",
     "compile": "tsc",
     "compile:watch": "tsc -w",
     "dev": "nodemon --watch src --watch test --ext ts,json --exec 'yarn bundle && yarn start'",
@@ -52,6 +55,10 @@
   },
   "packageManager": "yarn@4.2.2",
   "dependencies": {
+    "@sentry/esbuild-plugin": "^2.22.7",
+    "@sentry/node": "^8.42.0",
+    "@sentry/profiling-node": "^8.42.0",
+    "@sentry/tracing": "7.114.0",
     "@supabase/supabase-js": "^2.47.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
