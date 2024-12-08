@@ -138,3 +138,6 @@ dist
 node_modules
 TODO
 .envrc
+
+# Sentry Config File
+.env.sentry-build-plugin
