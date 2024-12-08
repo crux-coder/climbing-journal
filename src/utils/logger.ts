@@ -12,7 +12,7 @@ const logFormat = format.combine(
     }
     // Default log message format
     return `${info.timestamp} [${info.level.toUpperCase()}]: ${info.message}`;
-  })
+  }),
 );
 // Create a logger instance
 const logger = winston.createLogger({

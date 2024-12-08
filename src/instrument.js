@@ -20,7 +20,7 @@ Sentry.startSpan(
   },
   () => {
     // the code executing inside the transaction will be wrapped in a span and profiled
-  }
+  },
 );
 
 // Calls to stopProfiling are optional - if you don't stop the profiler, it will keep profiling

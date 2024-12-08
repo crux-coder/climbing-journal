@@ -20,7 +20,7 @@ export const errorHandler = (
   err: Error,
   _: Request,
   res: Response,
-  __: NextFunction
+  __: NextFunction,
 ) => {
   logger.error(err);
 
