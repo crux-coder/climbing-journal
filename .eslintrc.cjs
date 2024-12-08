@@ -64,6 +64,7 @@ module.exports = {
         "prefer-spread": "error",
         "no-empty": "error",
         "no-useless-catch": "error",
+        semi: ["error", "always"],
         // See "when not to use it", and check your use case, if you think this
         // rule should be disabled.
         "no-bitwise": "error",
