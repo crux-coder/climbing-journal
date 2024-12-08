@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { create, getAll, getById, update } from './users.controller';
+import { create, getAll, getById, update } from './climbingroute.controller';
 import { validateParamsId } from 'src/middleware/validate.params.id';
 import { authMiddleware } from 'src/middleware/auth.middleware';
 
