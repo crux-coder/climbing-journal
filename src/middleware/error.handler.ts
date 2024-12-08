@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "src/common/app.error";
+import logger from "src/utils/logger";
 import { ZodError } from "zod";
 
 export type RestError = {
@@ -19,9 +20,9 @@ export const errorHandler = (
   err: Error,
   _: Request,
   res: Response,
-  __: NextFunction,
+  __: NextFunction
 ) => {
-  console.error(err.stack);
+  logger.error(err);
 
   if (err instanceof AppError) {
     const status = err.status;
