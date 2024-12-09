@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "Jasmin Mustafic <mustaficjasmin7@gmail.com>",
   "scripts": {
-    "bundle": "rimraf dist && esbuild --outdir=dist --sourcemap --bundle --platform=node --target=node20.14.0 --external:@sentry/profiling-node --external:@sentry/node ./src/index.ts",
+    "bundle": "rimraf dist && node esbuild.mjs",
     "compile": "tsc",
     "compile:watch": "tsc -w",
     "dev": "nodemon --watch src --watch test --ext ts,json --exec 'yarn bundle && yarn start'",
@@ -42,6 +42,8 @@
     "@types/jest": "29.5.14",
     "@types/morgan": "^1",
     "@types/node": "20.17.9",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "esbuild": "0.21.3",
@@ -51,6 +53,8 @@
     "nodemon": "3.1.7",
     "prettier": "3.4.1",
     "rimraf": "5.0.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "typescript": "5.7.2"
   },
   "packageManager": "yarn@4.2.2",
