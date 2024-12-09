@@ -17,7 +17,7 @@ const SigninpRequestSchema = z.object({
 export const signin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     SigninpRequestSchema.parse(req.body);
@@ -49,7 +49,7 @@ export const signin = async (
 export const signup = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     SignupRequestSchema.parse(req.body);
