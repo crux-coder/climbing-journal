@@ -13,7 +13,7 @@ export const validateParamsId = (
       new AppError(
         "ID is required and must be a string",
         400,
-        "USER_ID_REQUIRED",
+        "ID_REQUIRED",
         "ID is required and must be a string",
       ),
     );

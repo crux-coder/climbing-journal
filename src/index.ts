@@ -1,22 +1,24 @@
 require("./instrument.js");
 
 import express from "express";
-import dotenv from "dotenv";
+import dotenvx from "@dotenvx/dotenvx";
 import { errorHandler } from "src/middleware/error.handler";
 import morgan from "morgan";
 import * as Sentry from "@sentry/node";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerOptions from "src/config/swagger";
+import logger from "src/utils/logger";
+
 // Routers
 import authRouter from "src/auth";
 import usersRouter from "src/users";
 import climbingrouteRouter from "src/climbingroute";
-import logger from "src/utils/logger";
+import mediaRouter from "src/media";
 
 const app = express();
 
-dotenv.config();
+dotenvx.config();
 app.use(express.json());
 // Logger
 const morganStream = {
@@ -37,6 +39,7 @@ app.use(morgan("dev", { stream: morganStream }));
 app.use("/auth", authRouter);
 app.use("/climbingroutes", climbingrouteRouter);
 app.use("/users", usersRouter);
+app.use("/media", mediaRouter);
 
 Sentry.setupExpressErrorHandler(app);
 app.use(errorHandler);
