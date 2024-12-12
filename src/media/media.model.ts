@@ -9,19 +9,16 @@ export type Media = {
   type: string;
   url: string;
   user_id: string;
-  owner_id: string;
-  owner_type: "CLIMBING_ROUTE" | "CLIMBING_PITCH";
+  climbing_route_id: string;
 };
 
 export const create = async (
   supabase: SupabaseClient<Database>,
   file: Express.Multer.File,
-  bucket: string,
-  ownerId: string,
-  ownerType: "CLIMBING_ROUTE" | "CLIMBING_PITCH",
+  climbingRouteId: string,
 ): Promise<string> => {
   const STORAGE_BASE_URL = process.env.SUPABASE_STORAGE_BASE_URL;
-  const fileName = `${bucket}/${uuidv4()}-${file.originalname}`;
+  const fileName = `${climbingRouteId}/${uuidv4()}-${file.originalname}`;
 
   const { data, error } = await supabase.storage
     .from("climbing-journal")
@@ -43,8 +40,7 @@ export const create = async (
     {
       type: file.mimetype,
       url: `${STORAGE_BASE_URL}${data.fullPath}`,
-      owner_id: ownerId,
-      owner_type: ownerType,
+      climbing_route_id: climbingRouteId,
     },
   ]);
 
@@ -64,12 +60,10 @@ export const createMany = async (
   supabase: SupabaseClient<Database>,
   media: Express.Multer.File[],
   bucket: string,
-  ownerId: string,
-  ownerType: "CLIMBING_ROUTE" | "CLIMBING_PITCH",
 ): Promise<string[]> => {
   const paths = await Promise.all(
     media.map(async (file) => {
-      const path = await create(supabase, file, bucket, ownerId, ownerType);
+      const path = await create(supabase, file, bucket);
 
       return path;
     }),

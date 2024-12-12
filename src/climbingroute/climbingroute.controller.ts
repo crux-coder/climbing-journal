@@ -174,8 +174,6 @@ export const uploadImages = async (
       supabase,
       files,
       climbingRouteId, // Bucket
-      climbingRouteId, // Owner ID for media
-      "CLIMBING_ROUTE",
     );
 
     res.status(201).json(media);

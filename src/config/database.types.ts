@@ -109,28 +109,25 @@ export type Database = {
       };
       media: {
         Row: {
+          climbing_route_id: string;
           created_at: string;
           id: string;
-          owner_id: string;
-          owner_type: Database["public"]["Enums"]["OwnerType"];
           type: string;
           url: string;
           user_id: string;
         };
         Insert: {
+          climbing_route_id: string;
           created_at?: string;
           id?: string;
-          owner_id: string;
-          owner_type: Database["public"]["Enums"]["OwnerType"];
           type: string;
           url: string;
           user_id?: string;
         };
         Update: {
+          climbing_route_id?: string;
           created_at?: string;
           id?: string;
-          owner_id?: string;
-          owner_type?: Database["public"]["Enums"]["OwnerType"];
           type?: string;
           url?: string;
           user_id?: string;
