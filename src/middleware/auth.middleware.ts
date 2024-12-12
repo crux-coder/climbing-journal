@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "src/common/app.error";
+import jwt from "jsonwebtoken";
 
 export async function authMiddleware(
   req: Request,
-  _: Response,
+  res: Response,
   next: NextFunction,
 ) {
   try {
@@ -14,7 +14,6 @@ export async function authMiddleware(
     if (authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.split(" ")[1];
     }
-
     // 2. Fallback to cookies
     if (!token) {
       // TODO: Implement cookie parsing
@@ -22,7 +21,11 @@ export async function authMiddleware(
 
     // 3. Verify token
     if (!token) {
-      throw new Error("Missing authentication token.");
+      throw new Error("Missing or invalid authentication token.");
+    }
+
+    if (isTokenExpired(token)) {
+      throw new Error("Token has expired.");
     }
 
     req.auth = { token };
@@ -30,14 +33,27 @@ export async function authMiddleware(
     next();
   } catch (err) {
     if (err instanceof Error) {
-      next(
-        new AppError(
-          err.message,
-          401,
-          "AUTHENTICATION_ERROR",
-          "Missing or invalid authentication token.",
-        ),
-      );
+      res.status(401).json({
+        message: err.message,
+      });
+    } else {
+      res.status(401).json({
+        message: "Missing or invalid authentication token.",
+      });
     }
   }
+}
+
+function isTokenExpired(token: string): boolean {
+  // Token will always encode json with exp field
+  const decoded = jwt.decode(token) as { exp: number } | null;
+  if (!decoded) {
+    return true;
+  }
+
+  if (decoded.exp) {
+    return Date.now() >= decoded.exp * 1000;
+  }
+
+  return true;
 }
