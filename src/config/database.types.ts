@@ -9,6 +9,57 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      climbing_pitches: {
+        Row: {
+          climbing_route_id: string;
+          created_at: string;
+          description: string | null;
+          grade: string | null;
+          id: string;
+          length: number | null;
+          pitch_order: number;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          climbing_route_id: string;
+          created_at?: string;
+          description?: string | null;
+          grade?: string | null;
+          id?: string;
+          length?: number | null;
+          pitch_order: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Update: {
+          climbing_route_id?: string;
+          created_at?: string;
+          description?: string | null;
+          grade?: string | null;
+          id?: string;
+          length?: number | null;
+          pitch_order?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "climbing_pitches_climbing_route_id_fkey";
+            columns: ["climbing_route_id"];
+            isOneToOne: false;
+            referencedRelation: "climbing_routes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "climbing_pitches_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       climbing_routes: {
         Row: {
           approach: string | null;
@@ -18,7 +69,6 @@ export type Database = {
           id: string;
           length: number | null;
           name: string;
-          pitches: Json;
           type: string | null;
           updated_at: string;
           user_id: string;
@@ -31,7 +81,6 @@ export type Database = {
           id?: string;
           length?: number | null;
           name: string;
-          pitches?: Json;
           type?: string | null;
           updated_at?: string;
           user_id?: string;
@@ -44,7 +93,6 @@ export type Database = {
           id?: string;
           length?: number | null;
           name?: string;
-          pitches?: Json;
           type?: string | null;
           updated_at?: string;
           user_id?: string;
@@ -52,6 +100,41 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "climbing_routes_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      media: {
+        Row: {
+          climbing_route_id: string;
+          created_at: string;
+          id: string;
+          type: string;
+          url: string;
+          user_id: string;
+        };
+        Insert: {
+          climbing_route_id: string;
+          created_at?: string;
+          id?: string;
+          type: string;
+          url: string;
+          user_id?: string;
+        };
+        Update: {
+          climbing_route_id?: string;
+          created_at?: string;
+          id?: string;
+          type?: string;
+          url?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "media_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
             referencedRelation: "users";
@@ -94,7 +177,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      OwnerType: "CLIMBING_PITCH" | "CLIMBING_ROUTE";
     };
     CompositeTypes: {
       [_ in never]: never;

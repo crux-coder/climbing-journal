@@ -5,7 +5,6 @@ import { Database } from "src/config/database.types";
 export type Template = {
   id: string;
   created_at: string;
-  updated_at: string;
 };
 
 export const create = async (
