@@ -17,6 +17,7 @@ export async function authMiddleware(
     // 2. Fallback to cookies
     if (!token) {
       // TODO: Implement cookie parsing
+      token = req.cookies["sb_access_token"];
     }
 
     // 3. Verify token

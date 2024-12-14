@@ -11,6 +11,7 @@ import swaggerOptions from "src/config/swagger";
 import logger from "src/utils/logger";
 import cors, { CorsOptionsDelegate } from "cors";
 import fs from "fs";
+import cookieParser from "cookie-parser";
 
 // Routers
 import authRouter from "src/auth";
@@ -24,7 +25,7 @@ const corsConfig: { allowedOrigins: string[] } = JSON.parse(
 const allowedOrigins = corsConfig.allowedOrigins;
 
 const app = express();
-
+app.use(cookieParser());
 dotenvx.config();
 app.use(express.json());
 // Dynamic CORS middleware

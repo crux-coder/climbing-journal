@@ -1,6 +1,7 @@
 import { getAnonSupabaseClient } from "src/config/supabase";
 import { AppError } from "src/common/app.error";
-import { Session, User } from "@supabase/supabase-js";
+import { Session, SupabaseClient, User } from "@supabase/supabase-js";
+import { Database } from "src/config/database.types";
 
 export type SignupRequest = {
   email: string;
@@ -58,7 +59,23 @@ export const signin = async (
   return data;
 };
 
+export const me = async (
+  supabase: SupabaseClient<Database>,
+  jwt: string,
+): Promise<User | null> => {
+  const { data, error } = await supabase.auth.getUser(jwt);
+
+  const { user } = data;
+
+  if (error) {
+    throw new AppError(error.message, 400, "ME_ERROR", error.message);
+  }
+
+  return data.user;
+};
+
 export default {
   signup,
   signin,
+  me,
 };

@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import AuthModel, { SigninRequest, SignupRequest } from "src/auth/auth.model";
+import {
+  getAnonSupabaseClient,
+  getAuthenticatedSupabaseClient,
+} from "src/config/supabase";
 import { z } from "zod";
 
 const SignupRequestSchema = z.object({
@@ -31,15 +35,13 @@ export const signin = async (
     res.cookie("sb_access_token", session.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "none",
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
     });
 
     res.cookie("sb_refresh_token", session.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "none",
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
     });
 
     res.status(200).json({ user, session });
@@ -68,6 +70,18 @@ export const signup = async (
     });
 
     res.status(201).json({ user, session });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const me = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const supabase = getAnonSupabaseClient();
+
+    const user = await AuthModel.me(supabase, req.auth.token);
+
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
