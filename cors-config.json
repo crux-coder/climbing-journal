@@ -1,0 +1,6 @@
+{
+  "allowedOrigins": [
+    "http://localhost:3000",
+    "https://climbing-journal-frontend.vercel.app/"
+  ]
+}

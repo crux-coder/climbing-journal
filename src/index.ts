@@ -9,6 +9,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerOptions from "src/config/swagger";
 import logger from "src/utils/logger";
+import cors, { CorsOptionsDelegate } from "cors";
+import fs from "fs";
 
 // Routers
 import authRouter from "src/auth";
@@ -16,10 +18,45 @@ import usersRouter from "src/users";
 import climbingrouteRouter from "src/climbingroute";
 import mediaRouter from "src/media";
 
+const corsConfig: { allowedOrigins: string[] } = JSON.parse(
+  fs.readFileSync("./cors-config.json", "utf8"),
+);
+const allowedOrigins = corsConfig.allowedOrigins;
+
 const app = express();
 
 dotenvx.config();
 app.use(express.json());
+// Dynamic CORS middleware
+type CorsOptions = {
+  origin: boolean;
+  credentials?: boolean;
+};
+
+const corsOptionsDelegate: CorsOptionsDelegate = (
+  req,
+  callback: (err: Error | null, options: CorsOptions) => void,
+): void => {
+  let corsOptions: CorsOptions = {
+    origin: false,
+    credentials: false,
+  };
+  const origin: string | undefined = req.headers.origin;
+
+  if (!origin) {
+    corsOptions = { credentials: false, origin: false };
+  } else if (allowedOrigins.includes(origin)) {
+    corsOptions = { credentials: true, origin: true }; // Allow this origin
+  } else {
+    corsOptions = { origin: false, credentials: false }; // Block this origin
+  }
+
+  callback(null, corsOptions); // Pass options to the cors middleware
+};
+
+// Apply CORS
+app.use(cors(corsOptionsDelegate));
+
 // Logger
 const morganStream = {
   write: (message: string): void => {

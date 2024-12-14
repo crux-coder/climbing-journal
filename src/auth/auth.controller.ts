@@ -31,16 +31,18 @@ export const signin = async (
     res.cookie("sb_access_token", session.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "none",
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
 
     res.cookie("sb_refresh_token", session.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "none",
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
 
-    res.status(201).json({ user, session });
+    res.status(200).json({ user, session });
   } catch (error) {
     next(error);
   }
